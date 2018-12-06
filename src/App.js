@@ -1,19 +1,15 @@
-import React from 'react'
-
+import React, { Component } from 'react'
 import Auth from './Auth'
+import UserData from './UserData'
 
-const App = (props) => (
-  <div>
-    <Auth>
-      <div>
-        SUPER SECRET CONTENT!
-        <div>
-        Password to your bank account,
-        </div>
-        and your small dick.
-      </div>
-    </Auth>
-  </div>
-)
+class App extends Component {
+  render() {
+    return (
+      <Auth>
+        <UserData />
+      </Auth>
+    )
+  }
+}
 
 export default App
