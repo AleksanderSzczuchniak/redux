@@ -1,9 +1,14 @@
 import React from 'react'
-import Auth from './Auth/Auth'
+
+import Auth from './Auth'
 
 const App = (props) => (
   <div>
-    <Auth/>
+    <Auth>
+      <div>
+        SUPER SECRET CONTENT!
+      </div>
+    </Auth>
   </div>
 )
 
