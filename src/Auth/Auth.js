@@ -1,15 +1,14 @@
 import React from 'react'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 
-import { auth } from '../firebaseConfig'
-
 import Forms from './Forms'
 
 import { connect } from 'react-redux'
 import { 
   initAuthChangeListeningAsyncAction,
   logOutAsyncAction,
-  logInByGoogleAsyncAction
+  logInByGoogleAsyncAction,
+  logInAsyncAction
  } from '../State/auth'
 
 class Auth extends React.Component {
@@ -30,11 +29,7 @@ class Auth extends React.Component {
   }
 
   onLogInClick = () => {
-    auth.signInWithEmailAndPassword(this.state.email, this.state.password)
-      .catch(error => {
-        alert('Something is wrong! Check console for error details!')
-        console.log(error)
-      })
+    this.props._logInAsyncAction(this.state.email, this.state.password)
   }
 
   render() {
@@ -76,7 +71,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   _initAuthChangeListeningAsyncAction: () => dispatch(initAuthChangeListeningAsyncAction()),
   _logOutAsyncAction: () => dispatch(logOutAsyncAction()),
-  _logInByGoogleAsyncAction: () => dispatch(logInByGoogleAsyncAction())
+  _logInByGoogleAsyncAction: () => dispatch(logInByGoogleAsyncAction()),
+  _logInAsyncAction: (email, password) => dispatch(logInAsyncAction(email, password)),
 })
 
 export default connect(
