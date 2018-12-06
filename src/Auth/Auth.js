@@ -8,7 +8,9 @@ import {
   initAuthChangeListeningAsyncAction,
   logOutAsyncAction,
   logInByGoogleAsyncAction,
-  logInAsyncAction
+  logInAsyncAction,
+  passwordChangeAction,
+  emailChangeAction
  } from '../State/auth'
 
 class Auth extends React.Component {
@@ -28,10 +30,7 @@ class Auth extends React.Component {
     this.setState({ password: event.target.value })
   }
 
-  onLogInClick = () => {
-    this.props._logInAsyncAction(this.state.email, this.state.password)
-  }
-
+ 
   render() {
     return (
       this.props._isUserLoggedIn ?
@@ -57,15 +56,18 @@ class Auth extends React.Component {
           onEmailChangeHandler={this.onEmailChangeHandler}
           password={this.state.password}
           onPasswordChangeHandler={this.onPasswordChangeHandler}
-          onLogInClick={this.onLogInClick}
+          onLogInClick={this._logInAsyncAction}
           onLogInByGoogleClick={this.props._logInByGoogleAsyncAction}
         />
     )
   }
 }
 
+
+
 const mapStateToProps = state => ({
-  _isUserLoggedIn: state.auth.isUserLoggedIn
+  _isUserLoggedIn: state.auth.isUserLoggedIn,
+  _email: state.auth.email,
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -73,6 +75,8 @@ const mapDispatchToProps = dispatch => ({
   _logOutAsyncAction: () => dispatch(logOutAsyncAction()),
   _logInByGoogleAsyncAction: () => dispatch(logInByGoogleAsyncAction()),
   _logInAsyncAction: (email, password) => dispatch(logInAsyncAction(email, password)),
+  _emailChangeAction: (event) => dispatch(emailChangeAction(event.target.value)),
+  _passwordChangeAction: (event) => dispatch(passwordChangeAction(event.target.value))
 })
 
 export default connect(
