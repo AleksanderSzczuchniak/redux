@@ -7,6 +7,10 @@ const App = (props) => (
     <Auth>
       <div>
         SUPER SECRET CONTENT!
+        <div>
+        Password to your bank account,
+        </div>
+        and your small dick.
       </div>
     </Auth>
   </div>
