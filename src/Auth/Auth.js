@@ -5,24 +5,20 @@ import { auth, googleProvider } from '../firebaseConfig'
 
 import Forms from './Forms'
 
+import { connect } from 'react-redux'
+import { 
+  initAuthChangeListeningAsyncAction,
+  logOutAsyncAction
+ } from '../State/auth'
+
 class Auth extends React.Component {
   state = {
     email: '',
-    password: '',
-    isUserLoggedIn: false
+    password: ''
   }
 
   componentDidMount() {
-    auth.onAuthStateChanged(
-      // user is an obj with users data or null when not logged in
-      user => {
-        if (user) {
-          this.setState({ isUserLoggedIn: true })
-        } else {
-          this.setState({ isUserLoggedIn: false })
-        }
-      }
-    )
+    this.props._initAuthChangeListeningAsyncAction()
   }
 
   onEmailChangeHandler = event => {
@@ -44,13 +40,9 @@ class Auth extends React.Component {
     auth.signInWithPopup(googleProvider)
   }
 
-  onLogOutClickHandler = () => {
-    auth.signOut()
-  }
-
   render() {
     return (
-      this.state.isUserLoggedIn ?
+      this.props._isUserLoggedIn ?
         <div>
           <FloatingActionButton
             style={{
@@ -61,7 +53,7 @@ class Auth extends React.Component {
               color: 'white'
             }}
             secondary={true}
-            onClick={this.onLogOutClickHandler}
+            onClick={this.props._logOutAsyncAction}
           >
             X
           </FloatingActionButton>
@@ -79,4 +71,17 @@ class Auth extends React.Component {
     )
   }
 }
-export default Auth
+
+const mapStateToProps = state => ({
+  _isUserLoggedIn: state.auth.isUserLoggedIn
+})
+
+const mapDispatchToProps = dispatch => ({
+  _initAuthChangeListeningAsyncAction: () => dispatch(initAuthChangeListeningAsyncAction()),
+  _logOutAsyncAction: () => dispatch(logOutAsyncAction())
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Auth)
